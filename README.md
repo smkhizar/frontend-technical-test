@@ -23,7 +23,7 @@ Enfin, il y a quelques questions à répondre dans le document [SOLUTION.md](SOL
 
 ## Démarrage du test
 
-Ce dépôt étant un template, il est possible de créer un nouveau projet en utilisant celui-ci comme [template](https://github.com/MeilleursAgents/FrontendTechTest/generate). Voir le gros bouton vert avec écrit `Template` dessus. Merci de laisser le projet généré en privé.
+Ce dépôt étant un template, il est possible de créer un nouveau projet en utilisant celui-ci comme [template](https://github.com/MeilleursAgents/frontend-technical-test/generate). Voir le gros bouton vert avec écrit `Template` dessus. Merci de laisser le projet généré en privé.
 
 [![MeilleursAgents logo](images/dépôt-privé.png)](https://github.com/MeilleursAgents/FrontendTechTest/generate)
 
