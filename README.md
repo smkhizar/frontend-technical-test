@@ -29,7 +29,7 @@ Ce dépôt étant un template, il est possible de créer un nouveau projet en ut
 
 Alternativement, cloner ce dépôt.
 
-    git clone git@github.com:MeilleursAgents/frontend-test-tech.git
+    git clone git@github.com:MeilleursAgents/frontend-technical-test.git
 
 ## Restitution
 
