@@ -33,7 +33,7 @@ Alternativement, cloner ce dépôt.
 
 ## Restitution
 
-Merci d'envoyer un `.zip` du dépôt **complet** (sans le dossier `node_modules`) au recruteur avec lequel tu es en contact.
+Merci d'envoyer un `.zip` du dépôt **complet** (sans le dossier `node_modules`) au tech recruter avec lequel tu es en contact.
 
 Si tu n'as pas encore postulé, tu peux nous faire parvenir le test technique à l'adresse suivante avec tes coordonées : frontend-technical-test@meilleursagents.com
 
