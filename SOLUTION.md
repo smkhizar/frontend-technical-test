@@ -1,27 +1,25 @@
-### Combien de temps as-tu passé sur ce test ?
+### How much time did you spend on this test?
 
-Réponse :
-
----
-
-### Pour quelle raison as-tu choisi ce boilerplate ou ce framework ?
-
-Réponse :
+Answer:
 
 ---
 
-### Quel est ton niveau actuel dans le framework utilisé ? (aucune expérience, débutant, intermédiaire, expert)
+### Why did you choose this particulare boilerplate or framework?
 
-Réponse :
-
----
-
-### Quelles seraient tes pistes d'améliorations sur la partie technique si tu devais envoyer cette application en production ? (Une version plus complète existe déjà en production)
-
-Réponse :
+Answer:
 
 ---
 
-### As-tu rencontré des problèmes que tu as laissé de côté pour finir dans les temps et quelles seraient tes pistes pour les résoudre ?
+### What's your current experience in the framework you used? (no experience, beginner, advanced, expert)
 
-Réponse :
+Answer:
+
+---
+### What would be the improvements on the technical part if you had to send this app to production? (A more complete version is already in production)
+
+Answer:
+
+---
+### Have you met issues that you left on the side to finish in time and how would you solve them?
+
+Answer:

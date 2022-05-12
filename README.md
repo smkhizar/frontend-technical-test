@@ -1,119 +1,120 @@
-# Test d'évaluation Frontend Meilleurs Agents
+# Meilleurs Agents Frontend Technical Test
 
 [![MeilleursAgents logo](images/logo-ma.png)](https://www.meilleursagents.com)
 
-## Présentation
+## Presentation
 
-Ce dépôt contient les instructions pour le test technique frontend de Meilleurs Agents.
+This reposository contains that instruction for MeilleursAgents Frontend Technical Test.
 
-Son objectif est de nous donner un aperçu de tes connaissances techniques pratiques à travers la réalisation d'une application en rapport avec ce que nous faisons en tant que Frontend Engineer chez Meilleurs Agents.
+It's objective is to give us an overview of your practical technical knowledge through the realisation of an application that matches what we do as Frontend Engineer at Meilleurs Agents.
 
-## Objectif
+## Objective
 
-L'objectif est de développer le code client d'une application permettant de visualiser tous les messages envoyés à une agence sur base d'une API fournie.
+The objective is to develop the client side code of an application allowing the visualisation of all the message sent to a realtor agency based on a given API.
 
-Les messages peuvent être de différents types : email, SMS, vocal.
+The messages can be of different types: email, text message, voicemail.
 
-L'application est donc destinée à un collaborateur d'une agence.
-Le collaborateur peut visualiser les messages pour une ou plusieurs agences à laquelle il est attaché.
+The app is destined to be used by the agency collaborators.
+Any collaborator can visualise the messages for one or several agencies to which they are attached to.
 
-L'application demandée est une version simplifiée d'une de nos applications existantes.
+This test is a simplified version of one of our existing application.
 
-Enfin, il y a quelques questions à répondre dans le document [SOLUTION.md](SOLUTION.md).
+When you are done, there's a few questions to answer in the [SOLUTION.md](SOLUTION.md) document.
 
-## Démarrage du test
+## How to start the test
 
-Ce dépôt étant un template, il est possible de créer un nouveau projet en utilisant celui-ci comme [template](https://github.com/MeilleursAgents/frontend-technical-test/generate). Voir le gros bouton vert avec écrit `Template` dessus. Merci de laisser le projet généré en privé.
+This repository being a template, it's possible to create a new project using this one as a [template](https://github.com/MeilleursAgents/frontend-technical-test/generate). Check the big green `Template` button. Thanks to let the generated project as a private one.
 
 [![MeilleursAgents logo](images/dépôt-privé.png)](https://github.com/MeilleursAgents/FrontendTechTest/generate)
 
-Alternativement, cloner ce dépôt.
+Alternatively, you can always clone this repository.
 
     git clone git@github.com:MeilleursAgents/frontend-technical-test.git
 
 ## Restitution
 
-Merci d'envoyer un `.zip` du dépôt **complet** (sans le dossier `node_modules`) au tech recruter avec lequel tu es en contact.
+Please send us a `.zip` of the **complete** repository (minus the `node_modules` folder) to the tech recruiter you are in touch with.
 
-Si tu n'as pas encore postulé, tu peux nous faire parvenir le test technique à l'adresse suivante avec tes coordonées : frontend-technical-test@meilleursagents.com
+If you haven't applied yet, you can send us your technical test to the following email address with your coordinates: frontend-technical-test@meilleursagents.com
 
-⚠️ Les C.V. seuls ne sont pas acceptés à cette adresse mail. Pour postuler, toutes nos offres sont disponibles sur notre [page carrière](https://carriere.meilleursagents.com/) ou directement sur [Welcome to the Jungle](https://www.welcometothejungle.com/fr/companies/meilleursagents/jobs)
+⚠️ CVs alone are not allowed to this email address. To apply, all our job offers are available on our [career page](https://carriere.meilleursagents.com/) or directly on [Welcome to the Jungle](https://www.welcometothejungle.com/fr/companies/meilleursagents/jobs)
 
-## Durée de réalisation
+## Completion time
 
-La durée de réalisation n'est pas limitée, l'idée est de prendre son temps, de respecter les consignes et de nous faire parvenir le résultat lorsqu'il te paraît satisfaisant.
+The time you spend on this test is not limited. The idea is to take your time, respect the assignment, and send us the result when you are happy with it.
 
-## Fonctionalités logiques et techniques
+## Logical and technical functionnalities
 
-### Requis pour le passage à la présentation du test
+### Required for the test presentation step
 
-**Fonctionnalités produit :**
+**Product functionnalities:**
 
-- Je peux changer d'agence, via le select et l'URL, et je vois la liste des messages de la dite agence
-- Je peux faire défiler la liste des messages sur plusieurs pages, quelque soit la taille de l'écran
-- Je clique sur un message et je vois le détail du message
-- Si le message n'était pas lu le compteur se décrémente
+- I can switch agencies via both the select and the URL and I see the messages list for the selected agency.
+- I can scroll through the messages list on several pages regardless of the screen size.
+- I can click on a message and open the message details.
+- If the message wasn't read, the counter decrements
 
-**Implémentations techniques :**
+**Technical implementation:**
 
-- Intégrer la version mobile et desktop
-- Intégrer la possibilité de changer d'agence via le select HTML natif et l'URL (routing)
-- Intégrer la vue agence avec la liste des messages
-- Intégrer la lecture d'un message en donnant la possibilité d'y accéder depuis l'URL (routing)
-- Respecter la structure de routing `/realtors/:id` et `/realtors/:id/messages/:id`
-- Gérer le compteur de message non-lus (envoyer une requête à l'API pour faire persister la donnée)
-- Gérer la pagination (infinite scroll)
-- Fidélité des écrans avec les maquettes fournies
+- Develop the small and large screen version
+- Develop the agency switch mecanism via both a native HTML select and the URL (routing)
+- Develop the agency view with the messages list
+- Develop the possibily to read a message through the URL (routing)
+- Respect the routing structure `/realtors/:id` and `/realtors/:id/messages/:id`
+- Handle the unread message counter (send a request to the API to make the value persist)
+- Handle the pagination (infinate scroll)
+- Respect the mockup fidelity
 
-### Apprécié avec l'implémentation
 
-⚠️ Attendu pour les rôles de Senior et Principal Engineer
+### Appreciated with the implementation
 
-- Tests (unitaires, fonctionnels) : une couverture de 100% n'est pas nécessaire, mais la pertinence est appréciée
-- Bonnes pratiques d'accessibilité
-- Dates relatives sur la liste des messages (ex: "Hier", "Il y a 2 heures")
+⚠️ Those are expected for the Senior and Principal Engineer positions
 
-### Contraintes techniques
+- Unit and functionnal tests: a 100% coverage is not necessary, just make them pertinent
+- Good accessibility practices
+- Relative dates on the messages list e.g. "Yesterday", "Two hours ago"
 
-- Utiliser une librairie/un framework JS
-- Utiliser l'API fournie
-- Développer l'application dans le dossier `front`
+### Technical constraints
 
-### Libertés techniques
+- Use a JS library/framework
+- Use the provided API
+- Develop the application in the `front` folder
 
-- Utilisation de tooling, alternative au CSS ou non pour le style
-- Utilisation de TypeScript ou JavaScript
+### Technical liberties
 
-### Boilerplate React
+- Use of tooling, CSS alternatives or not for the style
+- Use of TypeScript or JavaScript
 
-[Vite + React + Typescript + Eslint + Prettier](https://github.com/TheSwordBreaker/vite-reactts-eslint-prettier) : le plus proche de nos nouvelles applications destinées aux clients professionnels.
+### React Boilerplate
+
+[Vite + React + Typescript + Eslint + Prettier](https://github.com/TheSwordBreaker/vite-reactts-eslint-prettier) : the closest to our new applications used for our B2B customers
 
     rm front/.gitkeep && git clone git@github.com:TheSwordBreaker/vite-reactts-eslint-prettier.git ./front
 
-[Next.js](https://nextjs.org/docs/api-reference/create-next-app) : ce que nous utilisons pour le site grand public en server side rendering
+[Next.js](https://nextjs.org/docs/api-reference/create-next-app) : what we use for our public facing website in server side rendering
 
     npx create-next-app ./front
 
-[Create React App](https://create-react-app.dev/) : la base
+[Create React App](https://create-react-app.dev/) : the basic approach
 
     npx create-react-app ./front
 
-Un autre framework que React peut également être utilisé, tel que Vue.js, Angular, etc.
+Another framework can be used such as Vue.js, Angular, etc.
 
 ## Design
 
-Les maquettes au format [Figma](Maquettes.fig) et [PDF](Maquettes.pdf) sont fournies.
-Des [assets](assets) sont disponibles dans le dossier du même nom.
+The mockups in the  [Figma](Maquettes.fig) format and [PDF](Maquettes.pdf) are provided.
+You will find some [assets](assets) the assets folder.
 
-## API Docker
+## Docker API
 
 ### Installation
 
-Pour installer Docker Desktop, se rendre sur le site de [Docker](https://www.docker.com/get-started).
+To install Docker Desktop, go to [Docker](https://www.docker.com/get-started).
 
-### Lancer l'API
+### Start the API
 
-Le [Swagger](https://swagger.io/solutions/api-documentation/) et l'API sont disponibles à l'adresse http://localhost:8080 en lançant la commande suivante :
+The [Swagger](https://swagger.io/solutions/api-documentation/) and API are available at the following address http://localhost:8080 by using the command:
 
     docker run -p 8080:8080 --rm --name MA-FTT-API meilleursagents/frontend-technical-test-api
 
