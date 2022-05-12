@@ -4,7 +4,7 @@
 
 ## Presentation
 
-This reposository contains that instruction for MeilleursAgents Frontend Technical Test.
+This repository contains instructions for the MeilleursAgents Frontend Technical Test.
 
 It's objective is to give us an overview of your practical technical knowledge through the realisation of an application that matches what we do as Frontend Engineer at Meilleurs Agents.
 
