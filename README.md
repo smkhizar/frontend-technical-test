@@ -14,7 +14,7 @@ The objective is to develop the client side code of an application allowing the 
 
 Messages can be of different types: email, text message, voicemail.
 
-The app is destined to be used by the agency collaborators.
+The app will be used by the agency collaborators.
 Any collaborator can visualise the messages for one or several agencies to which they are attached to.
 
 This test is a simplified version of one of our existing application.
