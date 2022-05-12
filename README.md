@@ -12,7 +12,7 @@ It's objective is to give us an overview of your practical technical knowledge t
 
 The objective is to develop the client side code of an application allowing the visualisation of all the message sent to a realtor agency based on a given API.
 
-The messages can be of different types: email, text message, voicemail.
+Messages can be of different types: email, text message, voicemail.
 
 The app is destined to be used by the agency collaborators.
 Any collaborator can visualise the messages for one or several agencies to which they are attached to.
