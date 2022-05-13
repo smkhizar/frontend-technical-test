@@ -6,11 +6,11 @@
 
 This repository contains instructions for the MeilleursAgents Frontend Technical Test.
 
-Its objective is to provide us an overview of your practical technical knowledge by building an application that matches what we do as Frontend Engineers at Meilleurs Agents.
+Its objective is to give us an overview of your practical technical knowledge through the realisation of an application that matches what we do as Frontend Engineer at Meilleurs Agents.
 
 ## Objective
 
-The objective is to develop the client side code of an application allowing the visualisation of all the message sent to a realtor agency based on a given API.
+The aim is to develop the client side code of an application allowing visualising of all the messages sent to a realtor agency based on a given API.
 
 Messages can be of different types: email, text message, voicemail.
 
@@ -59,10 +59,10 @@ The time you spend on this test is not limited. The idea is to take your time, r
 - Develop the small and large screen version
 - Develop the agency switch mecanism via both a native HTML select and the URL (routing)
 - Develop the agency view with the messages list
-- Develop the possibily to read a message through the URL (routing)
+- Develop the possibility to read a message through the URL (routing)
 - Respect the routing structure `/realtors/:id` and `/realtors/:id/messages/:id`
 - Handle the unread message counter (send a request to the API to make the value persist)
-- Handle the pagination (infinate scroll)
+- Handle the pagination (infinite scroll)
 - Respect the mockup fidelity
 
 
@@ -104,7 +104,7 @@ Another framework can be used such as Vue.js, Angular, etc.
 ## Design
 
 The mockups in the  [Figma](Maquettes.fig) format and [PDF](Maquettes.pdf) are provided.
-You will find some [assets](assets) the assets folder.
+You will find some [assets](assets) in the assets folder.
 
 ## Docker API
 
