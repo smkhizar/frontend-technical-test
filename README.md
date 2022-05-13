@@ -6,7 +6,7 @@
 
 This repository contains instructions for the MeilleursAgents Frontend Technical Test.
 
-It's objective is to give us an overview of your practical technical knowledge through the realisation of an application that matches what we do as Frontend Engineer at Meilleurs Agents.
+Its objective is to provide us an overview of your practical technical knowledge by building an application that matches what we do as Frontend Engineers at Meilleurs Agents.
 
 ## Objective
 
