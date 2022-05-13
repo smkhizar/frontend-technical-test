@@ -103,7 +103,7 @@ Another framework can be used such as Vue.js, Angular, etc.
 
 ## Design
 
-The mockups in the  [Figma](Maquettes.fig) format and [PDF](Maquettes.pdf) are provided.
+The mockups in the  [Figma](mockups.fig) format and [PDF](mockups.pdf) are provided.
 You will find some [assets](assets) in the assets folder.
 
 ## Docker API
