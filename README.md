@@ -1,10 +1,10 @@
-# Meilleurs Agents Frontend Technical Test
+# Aviv Frontend Technical Test
 
-[![MeilleursAgents logo](images/logo-ma.png)](https://www.meilleursagents.com)
+[![Aviv logo](images/logo-aviv.png)](https://www.aviv-group.com/)
 
 ## Presentation
 
-This repository contains instructions for the MeilleursAgents Frontend Technical Test.
+This repository contains instructions for the Aviv Frontend Technical Test.
 
 Its objective is to give us an overview of your practical technical knowledge through the realisation of an application that matches what we do as Frontend Engineer at Meilleurs Agents.
 
