@@ -33,11 +33,15 @@ Alternatively, you can always clone this repository.
 
 ## Restitution
 
-Please send us a `.zip` of the **complete** repository (minus the `node_modules` folder) to the tech recruiter you are in touch with.
+When you are happy with the result of your test, and if you already applied, please send a `.zip` of the **complete** repository (minus the `node_modules` folder) to the tech recruiter that sent you the test using "Reply all".
 
-If you haven't applied yet, you can send us your technical test to the following email address with your coordinates: frontend-technical-test@meilleursagents.com
+If you haven't applied yet, you can send us your technical test to the following email address with your coordinates and/or your CV: frontend-technical-test@meilleursagents.com
 
-⚠️ CVs alone are not allowed to this email address. To apply, all our job offers are available on our [career page](https://carriere.meilleursagents.com/) or directly on [Welcome to the Jungle](https://www.welcometothejungle.com/fr/companies/meilleursagents/jobs)
+One of our tech recruiters will then be in touch with you for an interview while your test is being reviewed.
+
+If your test meets our criteria to get to the next step, you will subsequently meet one of our managers alongside a couple of developers to debrief your technical test, during an hour long session of demo/code review where we will talk about your test, your career, and motivations to join us.
+
+⚠️ CVs alone are not allowed to this email address. To apply, all our job offers are available on our [LinkedIn page](https://www.linkedin.com/jobs/search/?currentJobId=3213565461&f_C=19180346%2C252717%2C2802577%2C318363%2C265656&geoId=92000000).
 
 ## Completion time
 
