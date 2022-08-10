@@ -4,7 +4,7 @@ Answer:
 
 ---
 
-### Why did you choose this particulare boilerplate or framework?
+### Why did you choose this particular boilerplate or framework?
 
 Answer:
 
