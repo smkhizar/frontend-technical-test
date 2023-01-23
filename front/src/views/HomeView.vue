@@ -1,15 +1,15 @@
 <template>
-  <hello-world />
+  <TopNavBar :realtors="[]" :selectedRealtor="{}" />
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
+import TopNavBar from "../components/TopNavBar.vue";
 
 export default {
   name: "home-view",
 
   components: {
-    HelloWorld,
+    TopNavBar,
   },
 };
 </script>
