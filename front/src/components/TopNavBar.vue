@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div class="top-bar">
@@ -13,14 +14,16 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn small tile color="#5009DC" class="message-button">
                 <v-icon left> mdi-email-outline </v-icon>
-                {{ 3}}
+                {{ 3 }}
               </v-btn>
               <v-btn color="white" dark v-bind="attrs" v-on="on" small class="agent-button">
-                <span v-if="selectedRealtor.length === 0" style="margin-right: 1rem">{{ 'Agence' }}</span>
-                <span v-else style="margin-right: 1rem">{{ 'Agence' }}</span>
+                <span style="margin-right: 1rem">{{ selectedAgenceName ?  selectedAgenceName : "Agence"}}</span>
 
                 <div class="agent-button-content">
-                  <v-icon style=" font-size: 16px;margin-right: -1rem;margin-top: 0.1rem;" large color="white darken-2">
+                  <v-icon style=" font-size: 16px;
+                      margin-right: -1rem;
+                      margin-top: 0.1rem;
+                    " large color="white darken-2">
                     mdi-chevron-up
                   </v-icon>
                   <v-icon style="font-size: 16px; margin-bottom: -1.2rem" large color="white darken-2">
@@ -30,9 +33,13 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="(realtor, index) in realtors" :key="index">
-                <v-list-item-title>{{ realtor.title }}</v-list-item-title>
-              </v-list-item>
+              <v-list-item-group v-model="selectedAgence" active-class="border" color="indigo">
+                <v-list-item v-for="(agence, index) in agences" :key="index">
+                  <v-list-item-content>
+                    <v-list-item-title @click="onAgenceChange(agence)" v-text="agence.name"></v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
             </v-list>
           </v-menu>
         </div>
@@ -45,22 +52,40 @@
 export default {
   name: "top-bar",
 
-  data: () => ({}),
+  data: function () {
+    return {
+      allAgence: this.agences,
+      selectedAgence: this.selected_agence,
+    };
+  },
   props: {
-    realtors: {
+    agences: {
       required: true,
       type: Array,
       default() {
         return [];
       },
     },
-    selectedRealtor: {
+    selectedAgenceName: {
       required: true,
-      type: Object,
+      type: String,
       default() {
-        return {};
+        return "";
       },
     },
+    onAgenceChange: {
+      required: true,
+      type: Function,
+      default() {
+        return null;
+      },
+    },
+  },
+  methods: {
+    // onAngenceChange(agence) {
+    //   this.selectedAgence = agence;
+    //   this.selectedAgenceName = agence.name;
+    // },
   },
 };
 </script>
@@ -87,6 +112,10 @@ export default {
 
   .agent-button {
     color: black;
+  }
+
+  .tile:hover {
+    background: green;
   }
 
   .agent-button-content {
