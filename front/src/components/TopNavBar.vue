@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <!-- eslint-disable prettier/prettier -->
 <template>
   <div class="top-bar">
@@ -14,7 +13,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-btn small tile color="#5009DC" class="message-button">
                 <v-icon left> mdi-email-outline </v-icon>
-                {{ 3 }}
+                {{ messagesCount }}
               </v-btn>
               <v-btn color="white" dark v-bind="attrs" v-on="on" small class="agent-button">
                 <span style="margin-right: 1rem">{{ selectedAgenceName ?  selectedAgenceName : "Agence"}}</span>
@@ -50,7 +49,7 @@
 
 <script>
 export default {
-  name: "top-bar",
+  name: 'top-bar',
 
   data: function () {
     return {
@@ -70,7 +69,14 @@ export default {
       required: true,
       type: String,
       default() {
-        return "";
+        return '';
+      },
+    },
+    messagesCount: {
+      required: true,
+      type: Number,
+      default() {
+        return 0;
       },
     },
     onAgenceChange: {
@@ -80,12 +86,6 @@ export default {
         return null;
       },
     },
-  },
-  methods: {
-    // onAngenceChange(agence) {
-    //   this.selectedAgence = agence;
-    //   this.selectedAgenceName = agence.name;
-    // },
   },
 };
 </script>

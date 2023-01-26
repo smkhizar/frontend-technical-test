@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 module.exports = {
   root: true,
   env: {
@@ -14,6 +15,8 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    curly: "error",
+    "prettier/prettier": ["error", { printWidth: 220,'singleQuote': false }],
   },
   overrides: [
     {
