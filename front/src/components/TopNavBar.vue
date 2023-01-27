@@ -49,7 +49,7 @@
 
 <script>
 export default {
-  name: 'top-bar',
+  name: "top-bar",
 
   data: function () {
     return {
@@ -69,7 +69,7 @@ export default {
       required: true,
       type: String,
       default() {
-        return '';
+        return "";
       },
     },
     messagesCount: {

@@ -1,30 +1,39 @@
 <template>
   <div class="home-view">
-    <TopNavBar :agences="agence" :messagesCount="unreadMessagesCount" :selectedAgenceName="agenceNameSelected" :onAgenceChange="onAgenceSwitch" />
-    <v-flex>
+    <TopNavBar :agences="allAgence" :messagesCount="unreadMessagesCount" :selectedAgenceName="agenceNameSelected" :onAgenceChange="onAgenceSwitch" />
+    <v-flex v-if="route.path.includes('realtors')">
       <div fill-height class="drawer-container" id="drawer-container" style="float: left; margin-top: 0.9rem">
         <v-card elevation="3" outlined shaped tile>
           <v-layout row wrap style="box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important">
             <v-flex v-for="(message, index) in allMessages" :key="index">
-              <v-card flat hover class="white pb-2 mb-1 pl-2">
+              <v-card flat hover class="white" @click="openMessageDetails(message)">
                 <v-layout>
                   <v-flex xs11>
                     <v-list-item two-line v-if="allMessages.length !== 0">
-                      <v-list-item-avatar style="margin-top: -1rem">
-                        <v-icon v-if="message.type === 'sms'" :style="message.read === false ? 'color: #5009dc' : 'grey'">{{ message.read === false ? "mdi-message-alert" : "mdi-message" }}</v-icon>
-                        <v-icon v-else-if="message.type === 'phone'" :style="message.read === false ? 'color: #5009dc' : 'grey'">{{ message.read === false ? "mdi-phone-settings" : "mdi-phone" }}</v-icon>
+                      <v-list-item-avatar style="margin-top: -1.5rem">
+                        <v-icon v-if="message.type === 'sms'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ message.read === false ? "mdi-message-alert" : "mdi-message" }}</v-icon>
+                        <v-icon v-else-if="message.type === 'phone'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ message.read === false ? "mdi-phone-settings" : "mdi-phone" }}</v-icon>
                         <v-icon v-else :style="message.read === false ? 'color: #5009dc' : 'grey'">{{ message.read === false ? "mdi-email-open" : "mdi-email" }}</v-icon>
                       </v-list-item-avatar>
                       <v-list-item-content>
                         <v-row>
-                          <v-col cols="mx-auto">
-                            <v-list-item-title :style="message.read === false ? 'color: black;font-weight: bold;' : 'grey'">{{ getName(message) }}</v-list-item-title>
+                          <v-col cols="8" sm="8" md="8" lg="8">
+                            <v-list-item-title :style="message.read === false ? 'color: black;font-weight: bold;white-space: break-spaces' : 'color: grey;font-weight: bold;white-space: break-spaces'"
+                              >{{ getName(message)
+                              }}<span
+                                style="font-size: 0.8rem; font-weight: 400; white-space: nowrap"
+                                v-if="(message.type === 'phone' || message.type === 'sms') && message.contact.firstname !== '' && message.contact.lastname !== ''"
+                                >{{ " (" + phoneNumFormat(message.contact.phone) + ")" }}</span
+                              ></v-list-item-title
+                            >
                           </v-col>
-                          <v-col cols="mx-auto">
-                            <v-list-item-subtitle :style="message.read === false ? 'text-align: end;color: #5009dc' : 'text-align: end;color: grey'">{{ getDateTime(message.date) }} </v-list-item-subtitle>
+                          <v-col cols="4" sm="4" md="4" lg="4">
+                            <v-list-item-subtitle :style="message.read === false ? 'text-align: end;color: #5009dc;white-space: break-spaces' : 'text-align: end;color: grey;white-space: break-spaces'"
+                              >{{ getDateTime(message.date) }}
+                            </v-list-item-subtitle>
                           </v-col>
                         </v-row>
-                        <v-list-item-subtitle :style="message.read === false ? 'color: black' : 'grey'">{{ getSubject(message) }}</v-list-item-subtitle>
+                        <v-list-item-subtitle :style="message.read === false ? 'color: black' : 'color: grey'">{{ getSubject(message) }}</v-list-item-subtitle>
                         <v-list-item-subtitle>Logged In</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
@@ -37,56 +46,50 @@
           <v-card v-intersect="infiniteScrolling"></v-card>
         </v-card>
       </div>
-      <div fill-height style="float: left" id="message-details">
+      <div fill-height style="float: left" id="message-details" v-if="selectedMessage">
         <v-container>
           <v-card elevation="0" shaped tile>
-            <v-card-content>
-              <v-list-item two-line v-if="allMessages.length !== 0">
-                <v-list-item-content>
-                  <v-row justify="start" style="margin-top: -1rem">
-                    <v-col cols="4" md="2" sm="3" lg="2" l="2" style="max-width: 3.6rem">
-                      <v-icon color="#5009dc">mdi-email</v-icon>
-                    </v-col>
-                    <v-col cols="8">
-                      <v-list-item-subtitle id="name" style="font-size: 20px; font-weight: bold; color: black; white-space: pre-wrap">{{ "NAME" }}</v-list-item-subtitle>
-                      <v-row justify="space-around" style="margin-top: 1rem">
-                        <v-col class="d-flex" cols="4" xs="3">
-                          <v-list-item-subtitle>{{ "Email" }}</v-list-item-subtitle>
-                        </v-col>
-                        <v-col class="d-flex" cols="8">
-                          <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ "smkhizar.alam@gmail.com" }}</v-list-item-subtitle>
-                        </v-col>
-                      </v-row>
-                      <v-row justify="space-around" style="margin-top: -1rem">
-                        <v-col class="d-flex" cols="4">
-                          <v-list-item-subtitle>{{ "Phone" }}</v-list-item-subtitle>
-                        </v-col>
-                        <v-col class="d-flex" cols="8">
-                          <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ "01 15 12 84 69" }}</v-list-item-subtitle>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-            </v-card-content>
+            <v-list-item two-line v-if="allMessages.length !== 0">
+              <v-list-item-content>
+                <v-row justify="start" style="margin-top: -1rem">
+                  <v-col cols="4" md="2" sm="3" lg="2" l="2" style="max-width: 3.6rem">
+                    <v-icon color="#5009dc">mdi-email</v-icon>
+                  </v-col>
+                  <v-col cols="8">
+                    <v-list-item-subtitle id="name" style="font-size: 20px; font-weight: bold; color: black; white-space: pre-wrap">{{
+                      selectedMessage.contact.firstname + " " + selectedMessage.contact.lastname
+                    }}</v-list-item-subtitle>
+                    <v-row justify="space-around" style="margin-top: 1rem">
+                      <v-col class="d-flex" cols="4" xs="3">
+                        <v-list-item-subtitle>{{ "Email" }}</v-list-item-subtitle>
+                      </v-col>
+                      <v-col class="d-flex" cols="8">
+                        <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.email }}</v-list-item-subtitle>
+                      </v-col>
+                    </v-row>
+                    <v-row justify="space-around" style="margin-top: -1rem">
+                      <v-col class="d-flex" cols="4">
+                        <v-list-item-subtitle>{{ "Phone" }}</v-list-item-subtitle>
+                      </v-col>
+                      <v-col class="d-flex" cols="8">
+                        <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.phone }}</v-list-item-subtitle>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
           </v-card>
         </v-container>
 
         <v-container>
           <v-card style="height: auto; min-height: 100vh" elevation="0" shaped tile>
-            <v-card-content style="text-align: justify">
-              <v-card-title style="color: black; font-weight: bold; justify-content: left; margin-left: 3.5rem">Name</v-card-title>
-              <v-card-subtitle style="justify-content: left; margin-left: 3.5rem">25-01-2022 15:05</v-card-subtitle>
-              <v-card-subtitle style="color: black; justify-content: left; margin-left: 3.5rem"
-                >Paragraphs are the building blocks of papers. Many students define paragraphs in terms of length: a paragraph is a group of at least five sentences, a paragraph is half a page long, etc. In reality,
-                though, the unity and coherence of ideas among sentences is what constitutes a paragraph. A paragraph is defined as “a group of sentences or a single sentence that forms a unit” (Lunsford and Connors
-                116). Length and appearance do not determine whether a section in a paper is a paragraph. For instance, in some styles of writing, particularly journalistic styles, a paragraph can be just one sentence
-                long. Ultimately, a paragraph is a sentence or group of sentences that support one main idea. In this handout, we will refer to this as the “controlling idea,” because it controls what happens in the rest
-                of the paragraph.</v-card-subtitle
-              >
-            </v-card-content>
+            <div style="text-align: justify">
+              <v-card-title style="color: black; font-weight: bold; justify-content: left; margin-left: 3.5rem">{{ selectedMessage.contact.firstname + " " + selectedMessage.contact.lastname }}</v-card-title>
+              <v-card-subtitle style="justify-content: left; margin-left: 3.5rem">{{ moment(selectedMessage.date).format("DD MMMM YYYY") + " at " + moment(selectedMessage.date).format("HH:mm") }}</v-card-subtitle>
+              <v-card-subtitle style="color: black; justify-content: left; margin-left: 3.5rem">{{ selectedMessage.body }}</v-card-subtitle>
+            </div>
           </v-card>
         </v-container>
       </div>
@@ -99,34 +102,67 @@ import TopNavBar from "../components/TopNavBar.vue";
 import RealtorController from "../controllers/RealtorController";
 import MessagesController from "../controllers/MessagesController";
 import moment from "moment";
+import lodash from "lodash";
 
 export default {
   name: "home-view",
   data: () => ({
     RealtorController: RealtorController,
     MessagesController: MessagesController,
-    agence: [],
+    allAgence: [],
     agenceNameSelected: "",
     unreadMessagesCount: 0,
+    selectedMessage: undefined,
+    pageSize: 10,
+    sort: undefined,
     allMessages: [],
-    messageId: 0,
+    route: undefined,
+    agenceId: null,
     moment: moment,
+    lodash: lodash,
     readMessageColor: "grey",
     titles: [],
-    page: 1,
+    page: 0,
   }),
   components: {
     TopNavBar,
   },
   methods: {
+    openMessageDetails(message) {
+      console.log(message);
+      if (this.selectedMessage !== message) {
+        this.selectedMessage = message;
+        this.$router
+          .push({
+            name: "realtor-message",
+            params: { realtor_id: this.agenceId, message_id: message?.id },
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
     getDateTime(datetime) {
-      return moment(datetime).format("hh:mm");
+      let isToday = moment(datetime).isSame(new Date(), "day");
+      let isYesterDay = moment(datetime).isSame(new Date(), "day");
+      if (isToday) {
+        return moment(datetime).format("HH:mm");
+      } else if (isYesterDay) {
+        return "Yesterday " + moment(datetime).format("HH:mm");
+      } else {
+        return moment(datetime).format("DD/MM/YYYY");
+      }
+    },
+    phoneNumFormat(number) {
+      return number
+        .split(/(\d{2})/)
+        .join(" ")
+        .trim();
     },
     getName(message) {
       let firstName = message.contact.firstname;
       let lastName = message.contact.lastname;
       let type = message.type;
-      console.log(message.type);
       switch (type) {
         case "email":
           if (firstName !== "" && lastName !== "") {
@@ -136,40 +172,15 @@ export default {
           }
         case "phone":
           if (firstName !== "" && lastName !== "") {
-            return (
-              firstName +
-              " " +
-              lastName +
-              " (" +
-              message.contact.phone
-                .split(/(\d{2})/)
-                .join(" ")
-                .trim() +
-              ")"
-            );
+            return firstName + " " + lastName;
           } else {
-            return (
-              message.contact.phone
-                .split(/(\d{2})/)
-                .join(" ")
-                .trim() + ")"
-            );
+            return this.phoneNumFormat(message.contact.phone);
           }
         case "sms":
           if (firstName !== "" && lastName !== "") {
-            return (
-              firstName +
-              " " +
-              lastName +
-              " (" +
-              message.contact.phone
-                .split(/(\d{2})/)
-                .join(" ")
-                .trim() +
-              ")"
-            );
+            return firstName + " " + lastName;
           } else {
-            return message.contact.email;
+            return this.phoneNumFormat(message.contact.phone);
           }
         default:
           break;
@@ -180,27 +191,20 @@ export default {
     },
     onAgenceSwitch(item) {
       this.allMessages = [];
-      this.page = 1;
+      this.selectedMessage = undefined;
       this.agenceNameSelected = item.name;
       this.unreadMessagesCount = item.unread_messages;
-      this.messageId = item.id;
+      this.agenceId = item.id;
       this.fetchMessages();
     },
-    // getMessagesByAgence(id) {
-    //   this.messageId = id;
-    //   MessagesController.getAllMessages(id)
-    //     .then((response) => {
-    //       console.log(response);
-    //       this.allMessages = response;
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
     async fetchMessages() {
-      MessagesController.getAllMessages(this.messageId, this.query)
+      MessagesController.getAllMessages(this.agenceId, this.query, this.pageSize, this.sort)
         .then((response) => {
-          this.allMessages = response;
+          if (response.length !== 0) {
+            this.allMessages = this.allMessages.concat(response);
+          } else {
+            this.page = 0;
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -209,36 +213,53 @@ export default {
     // eslint-disable-next-line no-unused-vars
     infiniteScrolling(entries, observer, isIntersecting) {
       setTimeout(() => {
-        this.page++;
-        MessagesController.getAllMessages(this.messageId, this.query)
-          .then((response) => {
-            if (response.length > 1) {
-              response.forEach((message) => this.allMessages.push(message));
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        if (this.agenceId !== null) {
+          this.page++;
+          this.fetchMessages();
+          // MessagesController.getAllMessages(this.agenceId, this.query, null, null)
+          //   .then((response) => {
+          //     let messages = response;
+          //     if (response.length > 1) {
+          //       messages.forEach((message) => this.allMessages.push(message));
+          //       this.fetchMessages();
+          //     }
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //   });
+        }
       }, 500);
     },
   },
-  mounted() {
-    window.addEventListener("resize", () => {
-      //let width = window.innerWidth;
-      //console.log(width);
-      // if (width > 400) {
-      //   document.getElementById("drawer-container").style.width = "40%";
-      // } else {
-      //   document.getElementById("drawer-container").style.width = "100%";
-      // }
-    });
-  },
   async created() {
-    // this.fetchMessages();
+    this.route = this.$route;
     RealtorController.getRealtors()
       .then((response) => {
-        this.agence = response;
-        this.onAgenceSwitch(response[0]);
+        this.allAgence = response;
+        console.log(this.route);
+        if (this.route.name === "realtor-messages" || this.route.name === "realtor" || this.route.name === "realtor-message") {
+          let agence = lodash.find(response, (item) => item.id.toString() === this.route.params.realtor_id);
+          this.agenceNameSelected = agence.name;
+          this.unreadMessagesCount = agence.unread_messages;
+          this.agenceId = agence.id;
+          if (this.route?.query?.page !== null || this.route.query?.page !== undefined) {
+            this.page = parseInt(this.route.query.page);
+          }
+          if (((this.route?.query?.sort !== null || this.route.query?.sort !== undefined) && this.route.query?.sort === "date:desc") || this.route.query?.sort === "date:asc") {
+            this.sort = this.route.query?.sort;
+          }
+          if (this.route.params?.message_id >= 0) {
+            let messageId = this.route.params?.message_id;
+            MessagesController.getMessageDetails(this.agenceId, messageId)
+              .then((responseMessage) => {
+                this.selectedMessage = responseMessage;
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+          this.fetchMessages();
+        }
       })
       .catch((error) => {
         console.log(error);

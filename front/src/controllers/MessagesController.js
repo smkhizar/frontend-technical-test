@@ -9,9 +9,21 @@ let baseURL = "http://localhost:8080/";
 class MessagesController {
     constructor() {}
     
-    getAllMessages = async (realtorId,page) => {
+    getAllMessages = async (realtorId,page,page_size,sort) => {
         try {
-            const response = await Vue.axios.get(baseURL + "realtors/"+realtorId+"/messages?page="+page+"&page_size=20&sort=date:desc");
+            let url = baseURL + "realtors/"+realtorId+"/messages"
+            if(page > 0){
+                url = baseURL + "realtors/"+realtorId+"/messages?page="+page;
+            }
+            if(page > 0 && page_size > 0){
+                url = baseURL + "realtors/"+realtorId+"/messages?page="+ page +"&page_size=" + page_size;
+            }
+            if(page > 0 && page_size > 0 && sort !== undefined && sort !== null) {
+                if(sort === "date:desc" || sort === "date:asc"){
+                    url = baseURL + "realtors/"+realtorId+"/messages?page="+ page +"&page_size=" + page_size + "&sort=" + sort;
+                }
+            }
+            let response = await Vue.axios.get(url);
             return response.data;
         } catch (error) {
             console.log(error);
