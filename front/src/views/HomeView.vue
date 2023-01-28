@@ -12,8 +12,8 @@
                     <v-list-item two-line v-if="allMessages.length !== 0">
                       <v-list-item-avatar style="margin-top: -1.5rem">
                         <v-icon v-if="message.type === 'sms'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ message.read === false ? "mdi-message-alert" : "mdi-message" }}</v-icon>
-                        <v-icon v-else-if="message.type === 'phone'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ message.read === false ? "mdi-phone-settings" : "mdi-phone" }}</v-icon>
-                        <v-icon v-else :style="message.read === false ? 'color: #5009dc' : 'grey'">{{ message.read === false ? "mdi-email-open" : "mdi-email" }}</v-icon>
+                        <v-icon v-else-if="message.type === 'phone'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ "mdi-phone" }}</v-icon>
+                        <v-icon v-else :style="message.read === false ? 'color: #5009dc' : 'grey'">{{ message.read === false ? "mdi-email" : "mdi-email-open" }}</v-icon>
                       </v-list-item-avatar>
                       <v-list-item-content>
                         <v-row>
@@ -126,6 +126,7 @@ export default {
     showMessagesList: false,
     showMessageDetails: false,
     windowWidth: window.innerWidth,
+    isInit: false,
   }),
   components: {
     TopNavBar,
@@ -146,7 +147,7 @@ export default {
       }
     },
     getBody(message) {
-      if (message.contact.type === "phone") {
+      if (message.type === "phone") {
         return "Call" + " # " + message.id;
       } else {
         return message.body;
@@ -160,7 +161,7 @@ export default {
       } else if (isYesterDay) {
         return "Yesterday " + moment(datetime).format("HH:mm");
       } else {
-        return moment(datetime).format("DD/MM/YYYY");
+        return moment(datetime).format("DD/MM/YY");
       }
     },
     phoneNumFormat(number) {
@@ -197,7 +198,13 @@ export default {
       }
     },
     getSubject(message) {
-      return message.subject;
+      if (message.type === "phone") {
+        return "Call" + " # " + message.id;
+      } else if (message.type === "sms") {
+        return "Sms" + " # " + message.id;
+      } else {
+        return "Email" + " # " + message.id;
+      }
     },
     onAgenceSwitch(item) {
       this.allMessages = [];
@@ -221,7 +228,7 @@ export default {
       MessagesController.getAllMessages(this.agenceId, this.query, this.pageSize, this.sort)
         .then((response) => {
           if (response.length !== 0) {
-            this.allMessages = this.allMessages.concat(response);
+            this.allMessages = [...this.allMessages, ...response];
           } else {
             this.page = 0;
           }
@@ -233,20 +240,20 @@ export default {
     // eslint-disable-next-line no-unused-vars
     infiniteScrolling(entries, observer, isIntersecting) {
       setTimeout(() => {
-        if (this.agenceId !== null) {
-          this.page++;
+        if (this.agenceId !== null && isIntersecting === true && this.isInit === true) {
+          this.page === 0 ? (this.page = this.page + 2) : this.page++;
+          if (this.$route.name !== "realtor-message") {
+            this.$router
+              .push({
+                name: "realtor-messages",
+                params: { realtor_id: this.agenceId },
+                query: { page: this.page },
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
           this.fetchMessages();
-          // MessagesController.getAllMessages(this.agenceId, this.query, null, null)
-          //   .then((response) => {
-          //     let messages = response;
-          //     if (response.length > 1) {
-          //       messages.forEach((message) => this.allMessages.push(message));
-          //       this.fetchMessages();
-          //     }
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
         }
       }, 500);
     },
@@ -270,13 +277,14 @@ export default {
         this.allAgence = response;
         if (this.$route.name === "realtor-messages" || this.$route.name === "realtor" || this.route.name === "realtor-message") {
           let agence = lodash.find(response, (item) => item.id.toString() === this.$route.params.realtor_id.toString());
-          console.log(this.$route.params.realtor_id);
           this.agenceNameSelected = agence.name;
           this.unreadMessagesCount = agence.unread_messages;
           this.agenceId = agence.id;
           this.showMessagesList = true;
-          if (this.route?.query?.page !== null || this.route.query?.page !== undefined) {
-            this.page = parseInt(this.route.query.page);
+          if (this.route?.query?.page === "" || this.route.query?.page !== undefined || this.route.query?.page !== "0") {
+            if (this.route.fullPath.includes("page=")) {
+              this.page = parseInt(this.route.query.page);
+            }
           }
           if (((this.route?.query?.sort !== null || this.route.query?.sort !== undefined) && this.route.query?.sort === "date:desc") || this.route.query?.sort === "date:asc") {
             this.sort = this.route.query?.sort;
@@ -308,6 +316,9 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", this.onResize);
     });
+    setTimeout(() => {
+      this.isInit = true;
+    }, 1000);
   },
   updated() {
     if (this.route.name === "realtor-message") {
@@ -332,44 +343,54 @@ export default {
     width: 0px;
     background: transparent;
   }
+
   #drawer-container {
     @media only screen and (min-width: 250px) and (max-width: 680px) {
       width: 100%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 681px) and (max-width: 1024px) {
       width: 50%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1025px) and (max-width: 1200px) {
       width: 40%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1201px) and (max-width: 1400px) {
       width: 35%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1401px) {
       width: 30%;
       /* styles for browsers larger than 960px; */
     }
   }
+
   #message-details {
     @media only screen and (min-width: 250px) and (max-width: 680px) {
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 681px) and (max-width: 1024px) {
       width: 50%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1025px) and (max-width: 1200px) {
       width: 60%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1201px) and (max-width: 1400px) {
       width: 65%;
       /* styles for browsers larger than 960px; */
     }
+
     @media only screen and (min-width: 1401px) {
       width: 70%;
       /* styles for browsers larger than 960px; */

@@ -38,6 +38,15 @@ class MessagesController {
             console.log(error);
         }
     }
+    makeMessageRead = async (realtorId,messageId,payload) => {
+        try {
+            let url = baseURL + "realtors/"+realtorId+"/messages/"+messageId;
+            const response = await Vue.axios.put(url,payload);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 }
 
