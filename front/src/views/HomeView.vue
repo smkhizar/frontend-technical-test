@@ -1,8 +1,8 @@
 <template>
   <div class="home-view">
     <TopNavBar :agences="allAgence" :messagesCount="unreadMessagesCount" :selectedAgenceName="agenceNameSelected" :onAgenceChange="onAgenceSwitch" />
-    <v-flex v-if="route.path.includes('realtors')">
-      <div fill-height class="drawer-container" id="drawer-container" style="float: left; margin-top: 0.9rem">
+    <v-flex id="bottom-view">
+      <div fill-height class="drawer-container" id="drawer-container" style="float: left; margin-top: 0.9rem" v-if="showMessagesList === true">
         <v-card elevation="3" outlined shaped tile>
           <v-layout row wrap style="box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%), 0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%) !important">
             <v-flex v-for="(message, index) in allMessages" :key="index">
@@ -34,7 +34,7 @@
                           </v-col>
                         </v-row>
                         <v-list-item-subtitle :style="message.read === false ? 'color: black' : 'color: grey'">{{ getSubject(message) }}</v-list-item-subtitle>
-                        <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+                        <v-list-item-subtitle>{{ getBody(message) }}</v-list-item-subtitle>
                       </v-list-item-content>
                     </v-list-item>
                     <v-divider></v-divider>
@@ -46,7 +46,7 @@
           <v-card v-intersect="infiniteScrolling"></v-card>
         </v-card>
       </div>
-      <div fill-height style="float: left" id="message-details" v-if="selectedMessage">
+      <div fill-height style="float: left" id="message-details" v-if="selectedMessage && showMessageDetails === true">
         <v-container>
           <v-card elevation="0" shaped tile>
             <v-list-item two-line v-if="allMessages.length !== 0">
@@ -123,13 +123,16 @@ export default {
     readMessageColor: "grey",
     titles: [],
     page: 0,
+    showMessagesList: false,
+    showMessageDetails: false,
+    windowWidth: window.innerWidth,
   }),
   components: {
     TopNavBar,
   },
   methods: {
     openMessageDetails(message) {
-      console.log(message);
+      this.showMessageDetails = true;
       if (this.selectedMessage !== message) {
         this.selectedMessage = message;
         this.$router
@@ -140,6 +143,13 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+      }
+    },
+    getBody(message) {
+      if (message.contact.type === "phone") {
+        return "Call" + " # " + message.id;
+      } else {
+        return message.body;
       }
     },
     getDateTime(datetime) {
@@ -192,9 +202,19 @@ export default {
     onAgenceSwitch(item) {
       this.allMessages = [];
       this.selectedMessage = undefined;
+      this.showMessageDetails = false;
+      this.showMessagesList = true;
       this.agenceNameSelected = item.name;
       this.unreadMessagesCount = item.unread_messages;
       this.agenceId = item.id;
+      this.$router
+        .push({
+          name: "realtor-messages",
+          params: { realtor_id: this.agenceId },
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       this.fetchMessages();
     },
     async fetchMessages() {
@@ -230,18 +250,31 @@ export default {
         }
       }, 500);
     },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+      if (this.route.name === "realtor-message") {
+        if (this.windowWidth < 681) {
+          this.showMessageDetails = true;
+          this.showMessagesList = false;
+        } else {
+          this.showMessageDetails = true;
+          this.showMessagesList = true;
+        }
+      }
+    },
   },
   async created() {
     this.route = this.$route;
     RealtorController.getRealtors()
       .then((response) => {
         this.allAgence = response;
-        console.log(this.route);
-        if (this.route.name === "realtor-messages" || this.route.name === "realtor" || this.route.name === "realtor-message") {
-          let agence = lodash.find(response, (item) => item.id.toString() === this.route.params.realtor_id);
+        if (this.$route.name === "realtor-messages" || this.$route.name === "realtor" || this.route.name === "realtor-message") {
+          let agence = lodash.find(response, (item) => item.id.toString() === this.$route.params.realtor_id.toString());
+          console.log(this.$route.params.realtor_id);
           this.agenceNameSelected = agence.name;
           this.unreadMessagesCount = agence.unread_messages;
           this.agenceId = agence.id;
+          this.showMessagesList = true;
           if (this.route?.query?.page !== null || this.route.query?.page !== undefined) {
             this.page = parseInt(this.route.query.page);
           }
@@ -253,6 +286,7 @@ export default {
             MessagesController.getMessageDetails(this.agenceId, messageId)
               .then((responseMessage) => {
                 this.selectedMessage = responseMessage;
+                this.showMessageDetails = true;
               })
               .catch((error) => {
                 console.log(error);
@@ -269,6 +303,25 @@ export default {
     query() {
       return this.page;
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.onResize);
+    });
+  },
+  updated() {
+    if (this.route.name === "realtor-message") {
+      if (this.windowWidth < 681) {
+        this.showMessageDetails = true;
+        this.showMessagesList = false;
+      } else {
+        this.showMessageDetails = true;
+        this.showMessagesList = true;
+      }
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.onResize);
   },
 };
 </script>
@@ -303,7 +356,6 @@ export default {
   }
   #message-details {
     @media only screen and (min-width: 250px) and (max-width: 680px) {
-      display: none;
       /* styles for browsers larger than 960px; */
     }
     @media only screen and (min-width: 681px) and (max-width: 1024px) {
