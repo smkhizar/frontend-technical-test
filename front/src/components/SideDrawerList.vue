@@ -143,27 +143,22 @@ export default {
 #drawer-container {
   @media only screen and (min-width: 250px) and (max-width: 680px) {
     width: 100%;
-    /* styles for browsers larger than 960px; */
   }
 
   @media only screen and (min-width: 681px) and (max-width: 1024px) {
     width: 50%;
-    /* styles for browsers larger than 960px; */
   }
 
   @media only screen and (min-width: 1025px) and (max-width: 1200px) {
     width: 40%;
-    /* styles for browsers larger than 960px; */
   }
 
   @media only screen and (min-width: 1201px) and (max-width: 1400px) {
     width: 35%;
-    /* styles for browsers larger than 960px; */
   }
 
   @media only screen and (min-width: 1401px) {
     width: 30%;
-    /* styles for browsers larger than 960px; */
   }
 }
 </style>
