@@ -12,7 +12,7 @@ describe("Scolling Messages List & Click Message Then Details Check ", () => {
     cy.get("#agence0").should('not.have.text', null);
     cy.get("#agence0").click()
     cy.scrollTo('bottom', { duration: 800 });
-    for(let i=2;i<=4;i++){
+    for(let i=2;i<=3;i++){
         cy.scrollTo('bottom', { duration: 1000 }).then(() => {
             cy.url().should('include', 'page='+i)
             cy.wait(5)

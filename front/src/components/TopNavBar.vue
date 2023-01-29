@@ -4,7 +4,7 @@
     <v-app-bar color="white" dense dark elevation="4" flat outlined rounded shaped>
       <v-row :justify="'space-between'">
         <v-col cols="4" xs="3" sm="4" md="4" lg="4" xl="4" style="align-self: center">
-          <v-img max-height="50" max-width="150" src="@/assets/logo-aviv.svg"></v-img>
+          <v-img @click="goToRoot()" max-height="50" max-width="150" src="@/assets/logo-aviv.svg" style="cursor: pointer;"></v-img>
         </v-col>
         <v-col cols="8" sm="8" md="4" lg="4" xl="4">
           <template>
@@ -86,6 +86,11 @@ export default {
       default() {
         return null;
       },
+    },
+  },
+  methods: {
+    goToRoot() {
+      window.location = window.location.origin + "/realtors";
     },
   },
 };
