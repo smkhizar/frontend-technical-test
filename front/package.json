@@ -5,7 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test-open": "cypress open",
+    "test-run": "cypress run",
+    "test-run:unit": "cypress run --component",
+    "_test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
