@@ -8,7 +8,7 @@
             <v-flex v-for="(message, index) in allMessages" :key="index">
               <v-card flat hover class="white" @click="openMessageDetails(message)">
                 <v-layout>
-                  <v-flex xs11>
+                  <v-flex xs11 :id="'message' + index">
                     <v-list-item two-line v-if="allMessages.length !== 0">
                       <v-list-item-avatar style="margin-top: -1.5rem">
                         <v-icon v-if="message.type === 'sms'" :style="message.read === false ? 'color: #5009dc' : 'color: grey'">{{ message.read === false ? "mdi-message-alert" : "mdi-message" }}</v-icon>
@@ -50,13 +50,13 @@
         <v-container>
           <v-card elevation="0" shaped tile>
             <v-list-item two-line v-if="allMessages.length !== 0">
-              <v-list-item-content>
+              <v-list-item-content id="message-details-container">
                 <v-row justify="start" style="margin-top: -1rem">
                   <v-col cols="4" md="2" sm="3" lg="2" l="2" style="max-width: 3.6rem">
                     <v-icon color="#5009dc">mdi-email</v-icon>
                   </v-col>
                   <v-col cols="8">
-                    <v-list-item-subtitle id="name" style="font-size: 20px; font-weight: bold; color: black; white-space: pre-wrap">{{
+                    <v-list-item-subtitle id="message-name" style="font-size: 20px; font-weight: bold; color: black; white-space: pre-wrap">{{
                       selectedMessage.contact.firstname + " " + selectedMessage.contact.lastname
                     }}</v-list-item-subtitle>
                     <v-row justify="space-around" style="margin-top: 1rem">
@@ -64,7 +64,7 @@
                         <v-list-item-subtitle>{{ "Email" }}</v-list-item-subtitle>
                       </v-col>
                       <v-col class="d-flex" cols="8">
-                        <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.email }}</v-list-item-subtitle>
+                        <v-list-item-subtitle id="message-email" style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.email }}</v-list-item-subtitle>
                       </v-col>
                     </v-row>
                     <v-row justify="space-around" style="margin-top: -1rem">
@@ -72,7 +72,7 @@
                         <v-list-item-subtitle>{{ "Phone" }}</v-list-item-subtitle>
                       </v-col>
                       <v-col class="d-flex" cols="8">
-                        <v-list-item-subtitle style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.phone }}</v-list-item-subtitle>
+                        <v-list-item-subtitle id="message-phone" style="font-weight: bold; color: #5009dc; white-space: pre-wrap">{{ selectedMessage?.contact?.phone }}</v-list-item-subtitle>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -86,9 +86,13 @@
         <v-container>
           <v-card style="height: auto; min-height: 100vh" elevation="0" shaped tile>
             <div style="text-align: justify">
-              <v-card-title style="color: black; font-weight: bold; justify-content: left; margin-left: 3.5rem">{{ selectedMessage.contact.firstname + " " + selectedMessage.contact.lastname }}</v-card-title>
-              <v-card-subtitle style="justify-content: left; margin-left: 3.5rem">{{ moment(selectedMessage.date).format("DD MMMM YYYY") + " at " + moment(selectedMessage.date).format("HH:mm") }}</v-card-subtitle>
-              <v-card-subtitle style="color: black; justify-content: left; margin-left: 3.5rem">{{ selectedMessage.body }}</v-card-subtitle>
+              <v-card-title id="message-body-name" style="color: black; font-weight: bold; justify-content: left; margin-left: 3.5rem">{{
+                selectedMessage.contact.firstname + " " + selectedMessage.contact.lastname
+              }}</v-card-title>
+              <v-card-subtitle id="message-body-date" style="justify-content: left; margin-left: 3.5rem">{{
+                moment(selectedMessage.date).format("DD MMMM YYYY") + " at " + moment(selectedMessage.date).format("HH:mm")
+              }}</v-card-subtitle>
+              <v-card-subtitle id="message-body" style="color: black; justify-content: left; margin-left: 3.5rem">{{ selectedMessage.body }}</v-card-subtitle>
             </div>
           </v-card>
         </v-container>
@@ -144,6 +148,15 @@ export default {
           .catch((error) => {
             console.log(error);
           });
+      }
+      if (message.read === false) {
+        // MessagesController.makeMessageRead(this.agenceId, message.id, { read: true })
+        //   .then(() => {
+        //     this.unreadMessagesCount = this.unreadMessagesCount--;
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
       }
     },
     getBody(message) {
@@ -230,7 +243,8 @@ export default {
           if (response.length !== 0) {
             this.allMessages = [...this.allMessages, ...response];
           } else {
-            this.page = 0;
+            this.page = -1;
+            this.fetchMessages();
           }
         })
         .catch((error) => {
@@ -281,9 +295,14 @@ export default {
           this.unreadMessagesCount = agence.unread_messages;
           this.agenceId = agence.id;
           this.showMessagesList = true;
-          if (this.route?.query?.page === "" || this.route.query?.page !== undefined || this.route.query?.page !== "0") {
+          if (this.route?.query?.page !== "" || this.route.query?.page !== undefined || this.route.query?.page !== "0") {
             if (this.route.fullPath.includes("page=")) {
               this.page = parseInt(this.route.query.page);
+            }
+          }
+          if (this.route?.query?.page_size !== "" || this.route.query?.page_size !== undefined || this.route.query?.page_size !== "0") {
+            if (this.route.fullPath.includes("page_size=")) {
+              this.pageSize = parseInt(this.route.query.page_size);
             }
           }
           if (((this.route?.query?.sort !== null || this.route.query?.sort !== undefined) && this.route.query?.sort === "date:desc") || this.route.query?.sort === "date:asc") {

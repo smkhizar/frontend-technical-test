@@ -9,7 +9,7 @@
         <v-col cols="8" sm="8" md="4" lg="4" xl="4">
           <template>
             <div class="text-end">
-              <v-menu offset-y>
+              <v-menu offset-y :nudge-width="30">
                 <template v-slot:activator="{ on, attrs }">
                   <v-row no-gutters :justify="'end'">
                     <v-col cols="4" lg="4" md="4" sm="3" xl="2">
