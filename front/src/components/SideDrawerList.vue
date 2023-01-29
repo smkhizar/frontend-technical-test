@@ -17,7 +17,7 @@
                     <v-list-item-content>
                       <v-row>
                         <v-col cols="8" sm="8" md="8" lg="8">
-                          <v-list-item-title :style="message.read === false ? 'color: black;font-weight: bold;white-space: break-spaces' : 'color: grey;font-weight: bold;white-space: break-spaces'"
+                          <v-list-item-title :id="'message'+index+'-name'" :style="message.read === false ? 'color: black;font-weight: bold;white-space: break-spaces' : 'color: grey;font-weight: bold;white-space: break-spaces'"
                             >{{ getName(message)
                             }}<span
                               style="font-size: 0.8rem; font-weight: 400; white-space: nowrap"
@@ -27,13 +27,13 @@
                           >
                         </v-col>
                         <v-col cols="4" sm="4" md="4" lg="4">
-                          <v-list-item-subtitle :style="message.read === false ? 'text-align: end;color: #5009dc;white-space: break-spaces' : 'text-align: end;color: grey;white-space: break-spaces'"
+                          <v-list-item-subtitle :id="'message'+index+'-date'" :style="message.read === false ? 'text-align: end;color: #5009dc;white-space: break-spaces' : 'text-align: end;color: grey;white-space: break-spaces'"
                             >{{ getDateTime(message.date) }}
                           </v-list-item-subtitle>
                         </v-col>
                       </v-row>
-                      <v-list-item-subtitle :style="message.read === false ? 'color: black' : 'color: grey'">{{ getSubject(message) }}</v-list-item-subtitle>
-                      <v-list-item-subtitle>{{ getBody(message) }}</v-list-item-subtitle>
+                      <v-list-item-subtitle :id="'message'+index+'-subject'" :style="message.read === false ? 'color: black' : 'color: grey'">{{ getSubject(message) }}</v-list-item-subtitle>
+                      <v-list-item-subtitle :id="'message'+index+'-body'">{{ getBody(message) }}</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider></v-divider>
